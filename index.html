@@ -206,24 +206,29 @@
         /* Убираем абсолютное позиционирование и привязку к swiper-container */
         position: static; /* или просто не указываем position */
         width: 100%; /* Занимает ширину родителя */
-        display: flex; /* Для центрирования точек */
-        align-items: center; /* Для центрирования точек */
-        justify-content: center; /* Для центрирования точек */
+        /* display: flex; Убираем, так как flex не переносит по умолчанию */
+        display: flex;
+        flex-wrap: wrap; /* Позволяет элементам переноситься на следующую строку */
+        align-items: center; /* Центрируем по вертикали внутри строк */
+        justify-content: center; /* Центрируем точки внутри строк */
         margin-top: 10px; /* Отступ сверху от медиа-блока */
         margin-bottom: 15px; /* Отступ снизу до кнопок */
         border-top: 1px solid #eee; /* Серая черта */
         padding-top: 10px; /* Отступ для точек от черты */
-        height: auto; /* Высота по содержимому */
+        /* height: 20px; Убираем фиксированную высоту */
+        min-height: 20px; /* Минимальная высота одной строки */
         box-sizing: border-box; /* Учитываем padding в ширине */
+        gap: 4px 8px; /* Добавляет отступы между точками: вертикальный 4px, горизонтальный 8px. Помогает с визуальным разделением строк. */
       }
 
       /* Стили для самих точек пагинации */
       .swiper-pagination-custom .swiper-pagination-bullet {
         background-color: #1a5fb4 !important; /* Цвет неактивной точки */
         opacity: 1; /* Убедимся, что точки видны */
-        margin: 0 4px; /* Расстояние между точками */
+        /* margin: 0 4px; Отступы теперь задаются через gap у контейнера */
         width: 8px; /* Ширина точки */
         height: 8px; /* Высота точки */
+        flex-shrink: 0; /* Точки не будут сжиматься */
       }
 
       .swiper-pagination-custom .swiper-pagination-bullet-active {
