@@ -121,14 +121,14 @@
       .polygon-number-icon {
         background-color: rgba(255, 255, 255, 0.8);
         border-radius: 50%;
-        width: 20px; /* Базовый размер */
-        height: 20px; /* Базовый размер */
+        width: 16px; /* Базовый размер */
+        height: 16px; /* Базовый размер */
         display: flex;
         align-items: center;
         justify-content: center;
         font-weight: bold;
         color: #1a5fb4;
-        font-size: 12px; /* Базовый размер шрифта */
+        font-size: 10px; /* Базовый размер шрифта */
         border: 2px solid #1a5fb4;
         box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
         transition: all 0.1s ease-out;
@@ -151,7 +151,7 @@
       .swiper-container {
         width: 100%;
         height: 250px;
-        margin-bottom: 65px; /* Увеличен отступ снизу для пагинации */
+        margin-bottom: 85px; /* Увеличен отступ снизу для пагинации */
         border-radius: 12px;
         overflow: hidden;
       }
@@ -2387,8 +2387,8 @@
         return L.divIcon({
           className: "polygon-number-icon",
           html: `<span>${number}</span>`,
-          iconSize: [20, 20], // Базовый размер, будет динамически меняться в updateIconSizes
-          iconAnchor: [0, 0], // Базовый якорь
+          iconSize: [16, 16], // Базовый размер, будет динамически меняться в updateIconSizes
+          iconAnchor: [8, -8], // Базовый якорь
         });
       }
 
