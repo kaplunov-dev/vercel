@@ -2330,12 +2330,10 @@
         // Базовый размер иконок POI при minZoom (-3)
         const baseIconSize = 14;
         // Базовый размер иконок номеров палаток при minZoom (-3)
-        const baseNumberIconSize = 16; /* Изменено на 16px */
+        const baseNumberIconSize = 16;
         const baseNumberFontSize = 10;
 
         // Определяем коэффициент масштабирования.
-        // Формула: 1 + (текущий_зум - минимальный_зум) * коэффициент_увеличения
-        // Коэффициент увеличен для более заметного изменения
         const scaleFactor = 1 + (zoom - map.getMinZoom()) * 0.3;
 
         allMarkers.forEach((marker) => {
@@ -2343,12 +2341,11 @@
           if (element) {
             if (element.classList.contains("custom-icon")) {
               element.style.fontSize = `${baseIconSize * scaleFactor}px`;
-              // Leaflet IconSize и IconAnchor требуют пересчета для корректного позиционирования
               const scaledSize = baseIconSize * scaleFactor;
               marker.options.icon.options.iconSize = [
                 scaledSize,
                 scaledSize * 2,
-              ]; // Учитываем, что iconSize[1] обычно в 2 раза больше font-size
+              ];
               marker.options.icon.options.iconAnchor = [
                 scaledSize / 2,
                 scaledSize * 2,
@@ -2360,10 +2357,18 @@
               element.style.height = `${scaledSize}px`;
               element.style.fontSize = `${scaledFontSize}px`;
               marker.options.icon.options.iconSize = [scaledSize, scaledSize];
+
+              // --- ИЗМЕНЕНИЯ ЗДЕСЬ ---
+              // Сдвиг на 4px влево (уменьшаем X-координату якоря)
+              // Сдвиг на 4px вверх (увеличиваем Y-координату якоря)
+              const offsetX = 16 * scaleFactor; // Величина сдвига влево
+              const offsetY = 16 * scaleFactor; // Величина сдвига вверх
+
               marker.options.icon.options.iconAnchor = [
-                scaledSize / 2, /* Изменено на scaledSize / 2 */
-                scaledSize / 2, /* Изменено на scaledSize / 2 */
+                scaledSize / 2 - offsetX, // Сдвиг влево
+                scaledSize / 2 + offsetY, // Сдвиг вверх
               ];
+              // --- КОНЕЦ ИЗМЕНЕНИЙ ---
             }
           }
         });
