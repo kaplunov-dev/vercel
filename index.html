@@ -151,10 +151,10 @@
       .swiper-container {
         width: 100%;
         height: 300px; /* Фиксированная высота для медиа */
-        margin-bottom: 10px; /* Отступ до разделительной черты */
+        /* margin-bottom теперь управляется пагинацией, которая будет отдельным блоком */
         border-radius: 12px;
-        overflow: hidden; /* Остается, чтобы контент внутри не вылезал */
-        position: relative; /* Важно для позиционирования пагинации */
+        overflow: hidden;
+        position: relative;
       }
 
       /* Высота для самих медиа-слайдов */
@@ -179,20 +179,17 @@
         color: rgba(255, 255, 255, 0.9);
         text-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
         pointer-events: none; /* Кнопка не должна перехватывать клик */
+        top: 50%; /* Центрирование по вертикали */
+        left: 50%; /* Центрирование по горизонтали */
+        transform: translate(-50%, -50%); /* Точное центрирование */
       }
 
-      /* Стили для пагинации Swiper */
-      .swiper-pagination {
-        /* Убираем абсолютное позиционирование */
-        /* position: absolute; */ 
-        /* left: 0; */
-        /* right: 0; */
-        /* bottom: 5px !important; */ 
-        /* height: 40px; */ 
+      /* Стили для пагинации Swiper (теперь как отдельный блок) */
+      .swiper-pagination-custom {
         display: flex; /* Для центрирования точек */
         align-items: center; /* Для центрирования точек */
         justify-content: center; /* Для центрирования точек */
-        margin-top: 10px; /* Отступ сверху от медиа */
+        margin-top: 10px; /* Отступ сверху от медиа-блока */
         margin-bottom: 15px; /* Отступ снизу до кнопок */
       }
       .swiper-pagination-bullet {
@@ -1147,7 +1144,7 @@
             {
               src: "3.jpg",
               type: "image",
-              caption: "Секретный уголок для уединения! 🤫🚻",
+              caption: "Секретный уголок для уединения! 🤫�",
             },
             { src: "4.jpg", type: "image", caption: "Все удобства для тебя" },
             { src: "5.jpg", type: "image", caption: "Туалет" },
@@ -1237,7 +1234,7 @@
             {
               src: "1.jpg",
               type: "image",
-              caption: "Ужин с видом, о котором можно только мечтать! 🌊�",
+              caption: "Ужин с видом, о котором можно только мечтать! 🌊🍖",
             },
             {
               src: "2.jpg",
@@ -2392,7 +2389,7 @@
           className: "polygon-number-icon",
           html: `<span>${number}</span>`,
           iconSize: [20, 20], // Увеличен, чтобы соответствовать CSS width/height
-          iconAnchor: [10, 10], // Установлен в центр 20x20 иконки. Настройте вручную для идеального центрирования.
+          iconAnchor: [8, 8], // Смещен на 2px влево и 2px вверх
         });
       }
 
@@ -2410,6 +2407,11 @@
           caption: item.caption || "",
         }));
 
+        // Генерируем уникальный ID для элемента пагинации
+        const paginationId = `swiper-pagination-${Date.now()}-${Math.random()
+          .toString(36)
+          .substr(2, 9)}`;
+
         return `
             <div class="swiper-container">
                 <div class="swiper-wrapper">
@@ -2422,18 +2424,18 @@
                                 <div class="swiper-media-wrapper gallery-item" data-index="${index}" data-type="image">
                                   <img src="${fullPath}" alt="${
                             item.caption || "Фотография"
-                          }" onerror="this.src='https://placehold.co/300x270/cccccc/333333?text=Image+Not+Found';">
+                          }" onerror="this.src='https://placehold.co/250x150/cccccc/333333?text=Image+Not+Found';">
                                 </div>
                             </div>`;
                         } else if (item.type === "video") {
                           // Используем placeholder для миниатюры видео
-                          const videoThumbnail = `https://placehold.co/300x270/000000/FFFFFF?text=Vantastic`;
+                          const videoThumbnail = `https://placehold.co/250x150/000000/FFFFFF?text=Vantastic`;
                           return `
                             <div class="swiper-slide">
                                 <div class="swiper-media-wrapper gallery-item" data-index="${index}" data-type="video">
                                   <img src="${videoThumbnail}" alt="${
                             item.caption || "Vantastic"
-                          }" style="object-fit: cover;"> <!-- Изменено на cover -->
+                          }" style="object-fit: cover;">
                                   <span class="play-button">▶</span>
                                 </div>
                             </div>`;
@@ -2442,8 +2444,8 @@
                       })
                       .join("")}
                 </div>
-                <div class="swiper-pagination"></div>
-            </div>`;
+            </div>
+            <div class="swiper-pagination swiper-pagination-custom" id="${paginationId}"></div>`; // Добавляем custom-класс и ID
       }
 
       /**
@@ -2465,17 +2467,24 @@
             `;
         }
 
+        // Обновляем innerHTML infoContent
         infoContent.innerHTML = `
             <h3>${item.name}</h3>
             ${detailsHTML}
-            ${swiperHTML}`;
+            ${swiperHTML}`; // Swiper HTML теперь включает пагинацию
 
         if (item.media && item.media.length > 0) {
           setTimeout(() => {
-            new Swiper(".swiper-container", {
-              pagination: { el: ".swiper-pagination", clickable: true },
-              loop: item.media.length > 1,
-            });
+            // Находим сгенерированный элемент пагинации по ID
+            const paginationEl = infoContent.querySelector(
+              ".swiper-pagination-custom"
+            );
+            if (paginationEl) {
+              new Swiper(infoContent.querySelector(".swiper-container"), {
+                pagination: { el: paginationEl, clickable: true }, // Передаем ссылку на элемент
+                loop: item.media.length > 1,
+              });
+            }
           }, 0);
         }
         sidebar.classList.add("active");
