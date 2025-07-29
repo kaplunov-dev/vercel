@@ -2512,12 +2512,12 @@
                     return `
                       <div class="swiper-slide">
                         <div class="swiper-media-wrapper gallery-item" data-index="${index}" data-type="image">
-                          <img src="${fullPath}" alt="${item.caption || "Фотография"}" onerror="this.src='https://placehold.co/250x150/cccccc/333333?text=Image+Not+Found';">
+                          <img src="${fullPath}" alt="${item.caption || "Фотография"}" onerror="this.src='https://placehold.co/350x350/cccccc/333333?text=Image+Not+Found';">
                         </div>
                       </div>`;
                   } else if (item.type === "video") {
                     // Используем placeholder для миниатюры видео
-                    const videoThumbnail = `https://placehold.co/250x150/000000/FFFFFF?text=Vantastic`;
+                    const videoThumbnail = `https://placehold.co/350x350/000000/FFFFFF?text=Vantastic`;
                     return `
                       <div class="swiper-slide">
                         <div class="swiper-media-wrapper gallery-item" data-index="${index}" data-type="video">
