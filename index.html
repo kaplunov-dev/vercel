@@ -185,7 +185,27 @@
       }
 
       /* Стили для пагинации Swiper (теперь как отдельный блок) */
+      /* .swiper-pagination-custom {
+        display: flex; /* Для центрирования точек 
+        align-items: center; /* Для центрирования точек 
+        justify-content: center; /* Для центрирования точек 
+        margin-top: 10px; /* Отступ сверху от медиа-блока 
+        margin-bottom: 15px; /* Отступ снизу до кнопок 
+        border-top: 1px solid #eee; /* Серая черта 
+        padding-top: 10px; /* Отступ для точек от черты 
+        height: 20px; /* Фиксированная высота для пагинации 
+      }
+      .swiper-pagination-bullet {
+        background-color: #1a5fb4 !important;
+      }
+      .swiper-pagination-bullet-active {
+        background-color: #4a90e2 !important;
+      } */
+      /* Стили для пагинации Swiper (теперь как отдельный блок ПОСЛЕ медиа) */
       .swiper-pagination-custom {
+        /* Убираем абсолютное позиционирование и привязку к swiper-container */
+        position: static; /* или просто не указываем position */
+        width: 100%; /* Занимает ширину родителя */
         display: flex; /* Для центрирования точек */
         align-items: center; /* Для центрирования точек */
         justify-content: center; /* Для центрирования точек */
@@ -193,13 +213,22 @@
         margin-bottom: 15px; /* Отступ снизу до кнопок */
         border-top: 1px solid #eee; /* Серая черта */
         padding-top: 10px; /* Отступ для точек от черты */
-        height: 20px; /* Фиксированная высота для пагинации */
+        height: auto; /* Высота по содержимому */
+        box-sizing: border-box; /* Учитываем padding в ширине */
       }
-      .swiper-pagination-bullet {
-        background-color: #1a5fb4 !important;
+
+      /* Стили для самих точек пагинации */
+      .swiper-pagination-custom .swiper-pagination-bullet {
+        background-color: #1a5fb4 !important; /* Цвет неактивной точки */
+        opacity: 1; /* Убедимся, что точки видны */
+        margin: 0 4px; /* Расстояние между точками */
+        width: 8px; /* Ширина точки */
+        height: 8px; /* Высота точки */
       }
-      .swiper-pagination-bullet-active {
-        background-color: #4a90e2 !important;
+
+      .swiper-pagination-custom .swiper-pagination-bullet-active {
+        background-color: #4a90e2 !important; /* Цвет активной точки */
+        transform: scale(1.2); /* Немного увеличиваем активную точку */
       }
 
       /* Модальное окно для просмотра изображений и видео */
@@ -2402,8 +2431,65 @@
        * @param {string} basePath - Базовый путь к папке с медиафайлами.
        * @returns {string} HTML-строка для Swiper или пустая строка, если медиа нет.
        */
+      // function createSwiperHTML(mediaItems, basePath) {
+      //   if (!mediaItems || mediaItems.length === 0) return "";
+      //   currentGalleryItems = mediaItems.map((item) => ({
+      //     src: `${basePath}/${item.src}`,
+      //     type: item.type,
+      //     caption: item.caption || "",
+      //   }));
+
+      //   // Генерируем уникальный ID для элемента пагинации
+      //   const paginationId = `swiper-pagination-${Date.now()}-${Math.random()
+      //     .toString(36)
+      //     .substr(2, 9)}`;
+
+      //   return `
+      //       <div class="swiper-container">
+      //           <div class="swiper-wrapper">
+      //               ${mediaItems
+      //                 .map((item, index) => {
+      //                   const fullPath = `${basePath}/${item.src}`;
+      //                   if (item.type === "image") {
+      //                     return `
+      //                       <div class="swiper-slide">
+      //                           <div class="swiper-media-wrapper gallery-item" data-index="${index}" data-type="image">
+      //                             <img src="${fullPath}" alt="${
+      //                       item.caption || "Фотография"
+      //                     }" onerror="this.src='https://placehold.co/250x150/cccccc/333333?text=Image+Not+Found';">
+      //                           </div>
+      //                       </div>`;
+      //                   } else if (item.type === "video") {
+      //                     // Используем placeholder для миниатюры видео
+      //                     const videoThumbnail = `https://placehold.co/250x150/000000/FFFFFF?text=Vantastic`;
+      //                     return `
+      //                       <div class="swiper-slide">
+      //                           <div class="swiper-media-wrapper gallery-item" data-index="${index}" data-type="video">
+      //                             <img src="${videoThumbnail}" alt="${
+      //                       item.caption || "Vantastic"
+      //                     }" style="object-fit: cover;">
+      //                             <span class="play-button">▶</span>
+      //                           </div>
+      //                       </div>`;
+      //                   }
+      //                   return "";
+      //                 })
+      //                 .join("")}
+      //           </div>
+      //       </div>
+      //       <div class="swiper-pagination swiper-pagination-custom" id="${paginationId}"></div>`; // Добавляем custom-класс и ID
+      // }
+      /**
+       * Создает HTML для Swiper слайдера, включая изображения и видео.
+       * Пагинация теперь создается как отдельный элемент после слайдера.
+       * @param {Array<object>} mediaItems - Массив объектов { src, type, caption }.
+       * @param {string} basePath - Базовый путь к папке с медиафайлами.
+       * @returns {string} HTML-строка для Swiper или пустая строка, если медиа нет.
+       */
       function createSwiperHTML(mediaItems, basePath) {
         if (!mediaItems || mediaItems.length === 0) return "";
+
+        // Сохраняем элементы галереи для модального окна
         currentGalleryItems = mediaItems.map((item) => ({
           src: `${basePath}/${item.src}`,
           type: item.type,
@@ -2415,42 +2501,44 @@
           .toString(36)
           .substr(2, 9)}`;
 
-        return `
-            <div class="swiper-container">
-                <div class="swiper-wrapper">
-                    ${mediaItems
-                      .map((item, index) => {
-                        const fullPath = `${basePath}/${item.src}`;
-                        if (item.type === "image") {
-                          return `
-                            <div class="swiper-slide">
-                                <div class="swiper-media-wrapper gallery-item" data-index="${index}" data-type="image">
-                                  <img src="${fullPath}" alt="${
-                            item.caption || "Фотография"
-                          }" onerror="this.src='https://placehold.co/250x150/cccccc/333333?text=Image+Not+Found';">
-                                </div>
-                            </div>`;
-                        } else if (item.type === "video") {
-                          // Используем placeholder для миниатюры видео
-                          const videoThumbnail = `https://placehold.co/250x150/000000/FFFFFF?text=Vantastic`;
-                          return `
-                            <div class="swiper-slide">
-                                <div class="swiper-media-wrapper gallery-item" data-index="${index}" data-type="video">
-                                  <img src="${videoThumbnail}" alt="${
-                            item.caption || "Vantastic"
-                          }" style="object-fit: cover;">
-                                  <span class="play-button">▶</span>
-                                </div>
-                            </div>`;
-                        }
-                        return "";
-                      })
-                      .join("")}
-                </div>
+        // HTML для контейнера слайдера
+        const swiperContainerHTML = `
+          <div class="swiper-container">
+            <div class="swiper-wrapper">
+              ${mediaItems
+                .map((item, index) => {
+                  const fullPath = `${basePath}/${item.src}`;
+                  if (item.type === "image") {
+                    return `
+                      <div class="swiper-slide">
+                        <div class="swiper-media-wrapper gallery-item" data-index="${index}" data-type="image">
+                          <img src="${fullPath}" alt="${item.caption || "Фотография"}" onerror="this.src='https://placehold.co/250x150/cccccc/333333?text=Image+Not+Found';">
+                        </div>
+                      </div>`;
+                  } else if (item.type === "video") {
+                    // Используем placeholder для миниатюры видео
+                    const videoThumbnail = `https://placehold.co/250x150/000000/FFFFFF?text=Vantastic`;
+                    return `
+                      <div class="swiper-slide">
+                        <div class="swiper-media-wrapper gallery-item" data-index="${index}" data-type="video">
+                          <img src="${videoThumbnail}" alt="${item.caption || "Vantastic"}" style="object-fit: cover;">
+                          <span class="play-button">▶</span>
+                        </div>
+                      </div>`;
+                  }
+                  return "";
+                })
+                .join("")}
             </div>
-            <div class="swiper-pagination swiper-pagination-custom" id="${paginationId}"></div>`; // Добавляем custom-класс и ID
-      }
+            <!-- Пагинация внутри контейнера убрана -->
+          </div>`;
 
+        // HTML для внешнего элемента пагинации
+        const paginationHTML = `<div class="swiper-pagination-custom" id="${paginationId}"></div>`;
+
+        // Возвращаем слайдер и пагинацию как отдельные блоки
+        return swiperContainerHTML + paginationHTML;
+      }
       /**
        * Обновляет контент в боковой панели для любого объекта (палатки или POI).
        * @param {object} item - Объект с данными (палатка или точка интереса).
