@@ -307,7 +307,7 @@
       }
 
       /* Стрелки навигации в модальном окне */
-      .modal-nav {
+      /* .modal-nav {
         cursor: pointer;
         position: absolute;
         top: 50%;
@@ -335,6 +335,45 @@
       .modal-next {
         right: 0;
         border-radius: 0 3px 3px 0;
+      } */
+      /* Стрелки навигации в модальном окне - УЛУЧШЕННЫЕ СТИЛИ */
+      .modal-nav {
+        cursor: pointer;
+        position: absolute;
+        top: 50%;
+        /* Улучшенные размеры и видимость */
+        width: 50px; /* Увеличили ширину */
+        height: 50px; /* Добавили высоту */
+        padding: 0; /* Убрали padding */
+        margin-top: -25px; /* Центрируем по вертикали: половина высоты */
+        color: white;
+        font-weight: bold;
+        font-size: 30px; /* Размер шрифта */
+        transition: all 0.3s ease; /* Плавные переходы */
+        border-radius: 50%; /* Сделали круглыми */
+        user-select: none;
+        /* Ключевое изменение: z-index, чтобы быть поверх */
+        z-index: 10001; 
+        /* Фон для лучшей видимости */
+        background-color: rgba(0, 0, 0, 0.5); 
+        /* Выравнивание текста внутри */
+        display: flex; 
+        align-items: center;
+        justify-content: center;
+        /* Убираем выделение при клике/таче */
+        -webkit-tap-highlight-color: rgba(0,0,0,0);
+        box-sizing: border-box;
+      }
+      .modal-nav:hover {
+        /* Усилили эффект при наведении/касании */
+        background-color: rgba(0, 0, 0, 0.7); 
+        transform: scale(1.1); /* Немного увеличиваем */
+      }
+      .modal-prev {
+        left: 15px; /* Отступ от края */
+      }
+      .modal-next {
+        right: 15px; /* Отступ от края */
       }
 
       /* Текстовый контент в боковой панели */
@@ -2783,6 +2822,52 @@
           }
         }
       });
+
+            // --- SWIPE GESTURE HANDLING FOR MODAL ---
+      // Переменные для отслеживания свайпа
+      let touchStartX = 0;
+      let touchEndX = 0;
+      const swipeThreshold = 50; // Минимальная дистанция свайпа в пикселях
+
+      // Функция для обработки начала касания
+      function handleTouchStart(event) {
+        // Получаем координату X первого касания
+        touchStartX = event.changedTouches[0].screenX;
+      }
+
+      // Функция для обработки конца касания
+      function handleTouchEnd(event) {
+        // Получаем координату X последнего касания
+        touchEndX = event.changedTouches[0].screenX;
+        handleSwipeGesture();
+      }
+
+      // Функция для определения направления свайпа и действия
+      function handleSwipeGesture() {
+        const swipeDistance = touchStartX - touchEndX;
+
+        // Проверяем, превышает ли дистанция порог
+        if (Math.abs(swipeDistance) > swipeThreshold) {
+          // Если модальное окно открыто
+          if (modal.style.display === "flex") {
+            // Свайп влево -> Переход к следующему элементу
+            if (swipeDistance > 0 && document.querySelector(".modal-next").style.display !== "none") {
+              showNextItem();
+            }
+            // Свайп вправо -> Переход к предыдущему элементу
+            else if (swipeDistance < 0 && document.querySelector(".modal-prev").style.display !== "none") {
+              showPrevItem();
+            }
+          }
+        }
+      }
+
+      // Добавляем обработчики событий касания к модальному окну
+      if (modal) {
+        modal.addEventListener("touchstart", handleTouchStart, { passive: true });
+        modal.addEventListener("touchend", handleTouchEnd, { passive: true });
+      }
+      // --- КОНЕЦ SWIPE GESTURE HANDLING ---
     </script>
   </body>
 </html>
