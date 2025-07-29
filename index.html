@@ -2324,10 +2324,10 @@
       function updateIconSizes() {
         const zoom = map.getZoom();
         // Базовый размер иконок POI при minZoom (-3)
-        const baseIconSize = 16;
+        const baseIconSize = 14;
         // Базовый размер иконок номеров палаток при minZoom (-3)
-        const baseNumberIconSize = 20;
-        const baseNumberFontSize = 12;
+        const baseNumberIconSize = 16;
+        const baseNumberFontSize = 10;
 
         // Определяем коэффициент масштабирования.
         // Формула: 1 + (текущий_зум - минимальный_зум) * коэффициент_увеличения
@@ -2387,7 +2387,7 @@
         return L.divIcon({
           className: "polygon-number-icon",
           html: `<span>${number}</span>`,
-          iconSize: [16, 16], // Базовый размер, будет динамически меняться в updateIconSizes
+          iconSize: [14, 14], // Базовый размер, будет динамически меняться в updateIconSizes
           iconAnchor: [-8, -8], // Базовый якорь
         });
       }
