@@ -420,7 +420,7 @@
         /* Позиционируем от правого края
         right: 15px; 
       } */
-      /* Стрелки навигации в модальном окне - ИСПРАВЛЕННЫЕ СТИЛИ */
+      /* Стрелки навигации в модальном окне - ИСПРАВЛЕННЫЕ И ОПТИМИЗИРОВАННЫЕ СТИЛИ */
       .modal-nav {
         cursor: pointer;
         position: absolute;
@@ -431,25 +431,28 @@
         /* Отрицательный margin-top равен половине высоты для точного вертикального центрирования */
         margin-top: -25px;
         color: white;
-        font-weight: bold;
+        font-weight: normal; /* Изменено с bold */
         font-size: 30px;
-        transition: 0.3s ease;
+        /* line-height должен быть равен height для вертикального центрирования текста */
+        line-height: 50px; 
+        text-align: center; /* Горизонтальное центрирование текста как запасной вариант */
+        transition: all 0.3s ease; /* Плавные переходы */
         /* Делаем элемент круглым */
         border-radius: 50%;
         user-select: none;
         /* Фон для лучшей видимости */
         background-color: rgba(0, 0, 0, 0.5);
-        /* Используем flexbox для центрирования содержимого (стрелки) внутри */
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        /* Убираем padding, так как центрируем через flex */
-        padding: 0;
-        /* Убедимся, что стрелка не выделяется при клике/таче */
-        -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-        box-sizing: border-box;
         /* z-index для гарантии, что они поверх медиа */
         z-index: 10001;
+        /* Убираем padding, margin, border которые могут мешать */
+        padding: 0;
+        margin: 0;
+        border: none;
+        box-sizing: border-box;
+        /* Убедимся, что стрелка не выделяется при клике/таче */
+        -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+        /* display: block для предсказуемости */
+        display: block; 
       }
       .modal-nav:hover {
         /* Усиливаем эффект при наведении/касании */
