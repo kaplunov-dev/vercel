@@ -376,7 +376,7 @@
         right: 15px; /* Отступ от края 
       } */
       /* Стрелки навигации в модальном окне - ИСПРАВЛЕННЫЕ СТИЛИ */
-      .modal-nav {
+      /* .modal-nav {
         cursor: pointer;
         position: absolute;
         top: 50%;
@@ -389,36 +389,81 @@
         font-weight: bold;
         font-size: 30px;
         transition: 0.3s ease;
-        /* Делаем элемент круглым */
+        /* Делаем элемент круглым 
         border-radius: 50%; 
         user-select: none;
-        /* Фон для лучшей видимости */
+        /* Фон для лучшей видимости 
         background-color: rgba(0, 0, 0, 0.5); 
-        /* Используем flexbox для центрирования содержимого (стрелки) внутри */
+        /* Используем flexbox для центрирования содержимого (стрелки) внутри 
         display: flex; 
         align-items: center;
         justify-content: center;
-        /* Убираем padding, так как центрируем через flex */
+        /* Убираем padding, так как центрируем через flex 
         padding: 0; 
-         /* Убедимся, что стрелка не выделяется при клике/таче */
+         /* Убедимся, что стрелка не выделяется при клике/таче 
         -webkit-tap-highlight-color: rgba(0,0,0,0);
         box-sizing: border-box;
-        /* z-index для гарантии, что они поверх медиа */
+        /* z-index для гарантии, что они поверх медиа 
         z-index: 10001; 
       }
       .modal-nav:hover {
-        /* Усиливаем эффект при наведении/касании */
+        /* Усиливаем эффект при наведении/касании 
         background-color: rgba(0, 0, 0, 0.7); 
-        /* Немного увеличиваем */
+        /* Немного увеличиваем 
         transform: scale(1.1); 
       }
       .modal-prev {
-        /* Позиционируем от левого края */
+        /* Позиционируем от левого края
         left: 15px; 
       }
       .modal-next {
-        /* Позиционируем от правого края */
+        /* Позиционируем от правого края
         right: 15px; 
+      } */
+      /* Стрелки навигации в модальном окне - ИСПРАВЛЕННЫЕ СТИЛИ */
+      .modal-nav {
+        cursor: pointer;
+        position: absolute;
+        top: 50%;
+        /* Фиксированная ширина и высота для создания круга */
+        width: 50px;
+        height: 50px;
+        /* Отрицательный margin-top равен половине высоты для точного вертикального центрирования */
+        margin-top: -25px;
+        color: white;
+        font-weight: bold;
+        font-size: 30px;
+        transition: 0.3s ease;
+        /* Делаем элемент круглым */
+        border-radius: 50%;
+        user-select: none;
+        /* Фон для лучшей видимости */
+        background-color: rgba(0, 0, 0, 0.5);
+        /* Используем flexbox для центрирования содержимого (стрелки) внутри */
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        /* Убираем padding, так как центрируем через flex */
+        padding: 0;
+        /* Убедимся, что стрелка не выделяется при клике/таче */
+        -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+        box-sizing: border-box;
+        /* z-index для гарантии, что они поверх медиа */
+        z-index: 10001;
+      }
+      .modal-nav:hover {
+        /* Усиливаем эффект при наведении/касании */
+        background-color: rgba(0, 0, 0, 0.7);
+        /* Немного увеличиваем */
+        transform: scale(1.1);
+      }
+      .modal-prev {
+        /* Позиционируем от левого края */
+        left: 15px;
+      }
+      .modal-next {
+        /* Позиционируем от правого края */
+        right: 15px;
       }
 
       /* Текстовый контент в боковой панели */
