@@ -422,52 +422,53 @@
       } */
       /* Стрелки навигации в модальном окне - ИСПРАВЛЕННЫЕ И ОПТИМИЗИРОВАННЫЕ СТИЛИ */
       .modal-nav {
-        cursor: pointer;
-        position: absolute;
-        top: 50%;
-        /* Фиксированная ширина и высота для создания круга */
-        width: 50px;
-        height: 50px;
-        /* Отрицательный margin-top равен половине высоты для точного вертикального центрирования */
-        margin-top: -25px;
-        color: white;
-        font-weight: normal; /* Изменено с bold */
-        font-size: 30px;
-        /* line-height должен быть равен height для вертикального центрирования текста */
-        line-height: 50px; 
-        text-align: center; /* Горизонтальное центрирование текста как запасной вариант */
-        transition: all 0.3s ease; /* Плавные переходы */
-        /* Делаем элемент круглым */
-        border-radius: 50%;
-        user-select: none;
-        /* Фон для лучшей видимости */
-        background-color: rgba(0, 0, 0, 0.5);
-        /* z-index для гарантии, что они поверх медиа */
-        z-index: 10001;
-        /* Убираем padding, margin, border которые могут мешать */
-        padding: 0;
-        margin: 0;
-        border: none;
-        box-sizing: border-box;
-        /* Убедимся, что стрелка не выделяется при клике/таче */
-        -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-        /* display: block для предсказуемости */
-        display: block; 
-      }
-      .modal-nav:hover {
-        /* Усиливаем эффект при наведении/касании */
-        background-color: rgba(0, 0, 0, 0.7);
-        /* Немного увеличиваем */
-        transform: scale(1.1);
-      }
-      .modal-prev {
-        /* Позиционируем от левого края */
-        left: 15px;
-      }
-      .modal-next {
-        /* Позиционируем от правого края */
-        right: 15px;
-      }
+      cursor: pointer;
+      position: absolute;
+      top: 50%;
+      width: 50px;
+      height: 50px;
+      margin-top: -25px;
+      color: white;
+      font-weight: normal;
+      font-size: 30px;
+      transition: all 0.3s ease;
+      border-radius: 50%;
+      user-select: none;
+      background-color: rgba(0, 0, 0, 0.5);
+      z-index: 10001;
+      padding: 0;
+      margin: 0;
+      border: none;
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+      display: flex;          /* Добавлено */
+      align-items: center;    /* Добавлено */
+      justify-content: center;/* Добавлено */
+      line-height: 1;         /* Изменено с 50px */
+    }
+
+    .modal-nav:hover {
+      background-color: rgba(0, 0, 0, 0.7);
+      transform: scale(1.1);
+    }
+
+    .modal-prev {
+      left: 15px;
+    }
+
+    .modal-next {
+      right: 15px;
+    }
+
+    /* Для идеального центрирования символов */
+    .modal-nav:before {
+      content: "";
+      display: block;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
 
       /* Текстовый контент в боковой панели */
       #info-content {
@@ -660,8 +661,10 @@
     <!-- Модальное окно с навигацией -->
     <div id="modal" class="modal">
       <span class="modal-close">&times;</span>
-      <span class="modal-nav modal-prev">&#10094;</span>
-      <span class="modal-nav modal-next">&#10095;</span>
+      <!-- <span class="modal-nav modal-prev">&#10094;</span>
+      <span class="modal-nav modal-next">&#10095;</span> -->
+      <span class="modal-nav modal-prev">&lsaquo;</span>
+      <span class="modal-nav modal-next">&rsaquo;</span>
       <div class="modal-content-wrapper">
         <!-- Содержимое будет динамически вставляться: img или video -->
       </div>
